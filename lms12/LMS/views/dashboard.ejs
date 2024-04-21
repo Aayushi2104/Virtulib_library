@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <h1 class="text-center">Welcome, <%= username %></h1>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: <%= books.length > 0 ? '#f0f0f0' : '#ffffff' %>; /* Change background color based on the condition (e.g., if books array is not empty) */
+        }
+        h1 {
+            color: #007bff;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .card-title {
+            color: #333;
+            font-weight: bold;
+        }
+        .card-subtitle {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Library Management System</a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/add-book">Liked Book</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/book-room">Book Room</a>
+                </li>
+               
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Search form -->
+    <div class="container form-container">
+        <h2 class="text-center mb-4">Search Books</h2>
+        <form action="/dashboard/search" method="GET">
+            <div class="form-group">
+                <label for="searchQuery">Search:</label>
+                <input type="text" class="form-control" id="searchQuery" name="q" placeholder="Enter keywords" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Search</button>
+        </form>
+    </div>
+    <!-- Book Room form -->
+    <div class="container form-container">
+        <h2 class="text-center mb-4">Book a Room</h2>
+        <form action="/book-room" method="POST">
+            <div class="form-group">
+                <label for="roomNumber">Room Number:</label>
+                <input type="text" class="form-control" id="roomNumber" name="roomNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+            <div class="form-group">
+                <label for="duration">Duration (in hours):</label>
+                <input type="number" class="form-control" id="duration" name="duration" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <h1 class="text-center">Library Management System</h1>
+        <div class="row">
+            <% if (books && books.length > 0) { %>
+                <% books.forEach(book => { %>
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <!-- Wrap the image inside an anchor tag with the URL -->
+                            <a href="<%= book.url %>">
+                                <!-- Provide the image URL directly in the src attribute -->
+                                <img src="data:image/jpeg;base64,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" class="card-img-top" alt="Book Cover">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title"><%= book.title %></h5>
+                                <h6 class="card-subtitle mb-2 text-muted">by <%= book.author %></h6>
+                                <!-- Add other book details here if needed -->
+                                <button class="btn btn-danger delete-btn" data-id="<%= book._id %>">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="col">
+                    <p>No books available.</p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Attach click event handler to delete button
+        $(document).ready(function() {
+            $('.delete-btn').click(function() {
+                var bookId = $(this).data('id');
+                // Perform AJAX request to delete the book
+                $.ajax({
+                    url: '/delete-book/' + bookId,
+                    method: 'DELETE',
+                    success: function(response) {
+                        // Reload the page after deletion
+                        location.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error deleting book:', error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

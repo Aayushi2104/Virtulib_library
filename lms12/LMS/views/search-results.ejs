@@ -1,0 +1,21 @@
+<!-- search-results.ejs -->
+
+<div class="container">
+    <h2 class="text-center mb-4">Search Results</h2>
+    <% if (books.length > 0) { %>
+        <ul class="list-group">
+            <% books.forEach(book => { %>
+                <li class="list-group-item">
+                    <h5><%= book.title %></h5>
+                    <p>Author: <%= book.author %></p>
+                    <p><%= book.content %></p>
+                    <!-- <a href="/books/book/<%= book._id %>" class="btn btn-primary">View Content</a> -->
+                    <a href="/add-book" class="btn btn-primary">Like it</a>
+
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No books found.</p>
+    <% } %>
+</div>

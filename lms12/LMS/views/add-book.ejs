@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book you like</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Liked Book</h1>
+        <% if (books.length > 0) { %>
+            <div class="row">
+                <% books.forEach(book => { %>
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <!-- Link only wraps the card title -->
+                            <div class="card-body">
+                                <a href ="/dashboard/search?q=<%= encodeURIComponent(book.title) %>">
+
+                                    <h5 class="card-title"><%= book.title %></h5>
+                                </a>
+                                <h6 class="card-subtitle mb-2 text-muted">by <%= book.author %></h6>
+                                <!-- Add other book details here if needed -->
+                                <button type="button" class="btn btn-danger btn-block remove-book-btn">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <p>No books available to remove.</p>
+        <% } %>
+    </div>
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.remove-book-btn').click(function() {
+                // Remove the parent card element when the remove button is clicked
+                $(this).closest('.card').remove();
+            });
+        });
+    </script>
+</body>
+</html>
